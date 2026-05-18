@@ -38,7 +38,12 @@ public class InvoiceApp {
 
 
             } else if (Choice == 2){
-                DATABASE.Display_Invoice();
+                if (DATABASE.hasRecord()) {
+                    DATABASE.Display_Invoice();
+                } else if (!DATABASE.hasRecord()) {
+                    System.out.println("No recorded invoices."); 
+                }
+                
 
             } else if (Choice == 3){
                 System.out.print("Enter Invoice Number to pay: ");
@@ -54,13 +59,21 @@ public class InvoiceApp {
                 }
 
             } else if (Choice == 4){
-                System.out.print("Enter Invoice Number to delete: ");
-                String invno = INPUT.nextLine();
-                if(DATABASE.Delete_Invoice(invno)){
-                    System.out.println("Invoice deleted successfully.");
-                } else {
-                    System.out.println("Failed to delete invoice.");
-                }
+                if (DATABASE.hasRecord()) {
+                    System.out.print("Enter Invoice Number to delete: ");
+                    String invno = INPUT.nextLine();
+                    if(DATABASE.Delete_Invoice(invno)){
+                        System.out.println("Invoice deleted successfully.");
+                    } else {
+                        System.out.println("Failed to delete invoice.");
+                    }
+                    
+                    
+                } else if (!DATABASE.hasRecord()) {
+                    System.out.println("No recorded invoices."); 
+            }
+
+                
 
 
             } else if (Choice == 5){

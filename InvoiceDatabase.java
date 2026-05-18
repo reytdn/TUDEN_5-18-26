@@ -96,5 +96,37 @@ public class InvoiceDatabase {
         }
     }
 
+    public boolean hasRecord() {
+        String query = "SELECT * FROM receivable";
 
+        try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            return rs.next();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean invoiceExists(String invno) {
+        String query = "SELECT * FROM receivable WHERE invno = ?";
+
+        try (Connection conn = DriverManager.getConnection(url, dbUser, dbPassword);
+             PreparedStatement pst = conn.prepareStatement(query)) {
+
+            pst.setString(1, invno);
+            try (ResultSet rs = pst.executeQuery()) {
+                return rs.next();
+            }
+            
+
+        } catch (SQLException e) 
+        {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
